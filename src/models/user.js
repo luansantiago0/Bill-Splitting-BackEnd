@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const sequelize = require("../../config/db");
 
 const User = sequelize.define("User", {
   id: {
@@ -17,5 +17,7 @@ const User = sequelize.define("User", {
     allowNull: false,
   },
 });
+
+User.hasMany(User, { as: "friends" }); // Cada usuário pode ter muitos amigos
 
 module.exports = User;
