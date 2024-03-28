@@ -1,12 +1,14 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 const register = async (req, res) => {
   try {
     const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ email, password: hashedPassword });
+    await prisma.user.create({ data: { email, password: hashedPassword } });
     res.status(201).send("User registered successfully");
   } catch (error) {
     console.error(error);
@@ -17,7 +19,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.status(404).send("User not found");
     }

@@ -1,20 +1,22 @@
 const express = require("express");
-const sequelize = require("./config/db");
-const User = require("./src/models/user");
+// import { PrismaClient } from "@prisma/client/edge";
+// const prisma = new PrismaClient();
 
 const app = express();
 
 app.use(express.json());
 
-// Sincronizar os modelos com o banco de dados
-(async () => {
+// Rota para testar a conexão com o banco de dados
+app.get("/test-database", async (req, res) => {
   try {
-    await sequelize.sync();
-    console.log("Models synchronized with the database.");
+    // Consulta simples para verificar a conexão com o banco de dados
+    const result = await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({ message: "Database connection successful" });
   } catch (error) {
-    console.error("Error synchronizing models with the database:", error);
+    console.error("Error connecting to the database:", error);
+    res.status(500).json({ error: "Database connection failed" });
   }
-})();
+});
 
 // Rotas, middlewares, e outras configurações...
 
