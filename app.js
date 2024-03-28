@@ -1,10 +1,9 @@
 const express = require("express");
-
 const app = express();
+const userController = require("./src/controllers/userController");
+const billController = require("./src/controllers/billController");
 
 app.use(express.json());
-
-// Rotas, middlewares, e outras configurações...
 
 // Rota para testar a conexão com o banco de dados
 app.get("/test-database", async (req, res) => {
@@ -17,6 +16,14 @@ app.get("/test-database", async (req, res) => {
     res.status(500).json({ error: "Database connection failed" });
   }
 });
+
+// Rotas do usuário
+app.post("/login", userController.login);
+app.post("/register", userController.register);
+
+// Rotas da conta
+app.post("/bills", billController.createBill);
+app.post("/bills/:billId/friends", billController.addFriendToBill);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
