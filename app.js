@@ -1,10 +1,10 @@
 const express = require("express");
-// import { PrismaClient } from "@prisma/client/edge";
-// const prisma = new PrismaClient();
 
 const app = express();
 
 app.use(express.json());
+
+// Rotas, middlewares, e outras configurações...
 
 // Rota para testar a conexão com o banco de dados
 app.get("/test-database", async (req, res) => {
@@ -17,8 +17,6 @@ app.get("/test-database", async (req, res) => {
     res.status(500).json({ error: "Database connection failed" });
   }
 });
-
-// Rotas, middlewares, e outras configurações...
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
