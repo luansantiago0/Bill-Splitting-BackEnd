@@ -14,26 +14,5 @@ model User {
   id         Int          @id @default(autoincrement()) // Define o campo de ID como chave primária
   email      String       @unique // Define o campo de e-mail como único
   password   String       // Define o campo de senha
-  bills      Bill[]       @relation("UserBills") // Relacionamento com os registros da tabela Bill, onde o usuário é o proprietário das contas
-  friends    Friendship[] @relation("UserFriends") // Relacionamento com os registros da tabela Friendship, representando os amigos do usuário
-  friendOf   Friendship[] @relation("FriendOfUser") // Relacionamento com os registros da tabela Friendship, representando os usuários que consideram este usuário como amigo
 }
 
-// Define o modelo Friendship, representando a relação de amizade entre usuários na aplicação
-model Friendship {
-  id       Int    @id @default(autoincrement()) // Define o campo de ID como chave primária
-  userId   Int    // ID do usuário
-  friendId Int    // ID do amigo
-  User     User   @relation("UserFriends", fields: [userId], references: [id]) // Relacionamento com os registros da tabela User, representando o usuário
-  Friend   User   @relation("FriendOfUser", fields: [friendId], references: [id]) // Relacionamento com os registros da tabela User, representando o amigo
-}
-
-// Define o modelo Bill, representando uma conta de restaurante na aplicação
-model Bill {
-  id           Int       @id @default(autoincrement()) // Define o campo de ID como chave primária
-  totalAmount  Float     // Define o campo de valor total da conta
-  ownerId      Int       // ID do proprietário da conta
-  owner        User      @relation("UserBills", fields: [ownerId], references: [id]) // Relacionamento com os registros da tabela User, representando o proprietário da conta
-  createdAt    DateTime  @default(now()) @map("createdAt") // Define o campo de data de criação
-  updatedAt    DateTime  @updatedAt @map("updatedAt") // Define o campo de data de atualização
-}

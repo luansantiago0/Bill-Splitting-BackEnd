@@ -21,7 +21,7 @@ app.get("/test-database", async (req, res) => {
 app.post("/login", userController.login);
 app.post("/register", userController.register);
 
-// Rotas da conta
+// Rotas da conta do restaurante
 app.post("/bills", billController.createBill);
 app.post("/bills/:billId/friends", billController.addFriendToBill);
 
