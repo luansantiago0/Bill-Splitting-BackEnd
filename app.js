@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const userController = require("./src/controllers/userController");
-const billController = require("./src/controllers/billController");
 
 app.use(express.json());
 
@@ -21,7 +20,7 @@ app.get("/test-database", async (req, res) => {
 app.post("/login", userController.login);
 app.post("/register", userController.register);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server running on the port ${PORT}`);
 });
