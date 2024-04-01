@@ -21,10 +21,6 @@ app.get("/test-database", async (req, res) => {
 app.post("/login", userController.login);
 app.post("/register", userController.register);
 
-// Rotas da conta do restaurante
-app.post("/bills", billController.createBill);
-app.post("/bills/:billId/friends", billController.addFriendToBill);
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on the port ${PORT}`);
