@@ -6,9 +6,22 @@ const prisma = new PrismaClient();
 
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, emailConfirmation } = req.body;
+
+    // Verifica se o email e a confirmação do email coincidem
+    if (email !== emailConfirmation) {
+      return res.status(400).send("Email and email confirmation do not match");
+    }
+
+    // Verifica se o email já está registrado
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return res.status(400).send("Email already registered");
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     await prisma.user.create({ data: { email, password: hashedPassword } });
+
     res.status(201).send("User registered successfully");
   } catch (error) {
     console.error(error);
