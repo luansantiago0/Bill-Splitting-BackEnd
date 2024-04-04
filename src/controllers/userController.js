@@ -9,7 +9,7 @@ const register = async (req, res) => {
     const { email, password, emailConfirmation } = req.body;
 
     // Verifica se o email e a confirmação do email coincidem
-    if (email !== emailConfirmation) {
+    if (email == emailConfirmation) {
       return res.status(400).send("Email and email confirmation do not match");
     }
 
